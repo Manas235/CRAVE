@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crave | Premium Handcrafted Cookies</title>
+    <meta name="description"
+        content="Indulge in our premium, handcrafted cookies baked fresh daily with the finest ingredients.">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">CRAVE.</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdWrC4lviHY1NPpgH8QOITSf-uN7rou1rQ9T_09gLeHFkX0uQ/viewform?usp=publish-editor"
+                        target="_blank">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="cart-btn" id="open-cart-btn" aria-label="Open Cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <button class="close-mobile-menu" id="close-mobile-menu">&times;</button>
+        <ul class="mobile-nav-links">
+            <li><a href="#home" class="mobile-link">Home</a></li>
+            <li><a href="#shop" class="mobile-link">Shop</a></li>
+            <li><a href="#about" class="mobile-link">About</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdWrC4lviHY1NPpgH8QOITSf-uN7rou1rQ9T_09gLeHFkX0uQ/viewform?usp=publish-editor"
+                    target="_blank" class="mobile-link">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Bite into <br><span class="text-accent">Perfection.</span></h1>
+            <p class="hero-subtitle">Handcrafted, gourmet cookies made with premium ingredients. Indulge in warm, gooey
+                perfection delivered straight to your door.</p>
+            <div class="hero-actions">
+                <a href="#shop" class="btn btn-primary">Shop Now</a>
+                <a href="#about" class="btn btn-outline">Our Story</a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Marquee Banner -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <span>Freshly Baked Daily • Premium Ingredients • Handcrafted with Love • Nationwide Shipping • </span>
+            <span>Freshly Baked Daily • Premium Ingredients • Handcrafted with Love • Nationwide Shipping • </span>
+        </div>
+    </div>
+
+    <!-- Stats / Trust Bar -->
+    <section class="stats-bar animate-on-scroll">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-icon">🍪</span>
+                <span class="stat-number">500<span class="stat-plus">+</span></span>
+                <span class="stat-label">Happy Customers</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon">🎉</span>
+                <span class="stat-number">20<span class="stat-plus">+</span></span>
+                <span class="stat-label">Cookie Flavors</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon">🚀</span>
+                <span class="stat-number">48<span class="stat-unit">h</span></span>
+                <span class="stat-label">Fast Delivery</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon">⭐</span>
+                <span class="stat-number">4.9<span class="stat-unit">★</span></span>
+                <span class="stat-label">Average Rating</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop/Products Section -->
+    <section id="shop" class="products-section">
+        <div class="section-header animate-on-scroll">
+            <h2>Our Signature Bakes</h2>
+            <p>Discover your new obsession.</p>
+        </div>
+
+        <div class="products-grid" id="products-container">
+            <!-- Products will be injected here via JavaScript -->
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="about-grid">
+            <div class="about-image animate-on-scroll">
+                <img src="assets/baker_image.png" alt="Baker preparing cookie dough">
+            </div>
+            <div class="about-content animate-on-scroll" style="transition-delay: 0.15s;">
+                <h2>Baked with <span class="text-accent">Passion</span></h2>
+                <p>What started as a late-night kitchen experiment has grown into Crave. We believe that a cookie isn't
+                    just a snack—it's an experience. That's why we source the finest Belgian chocolate, European butter,
+                    and pure vanilla extract.</p>
+                <p>Every small batch is crafted by hand to ensure the perfect crispy edge and gooey center.</p>
+                <a href="#shop" class="btn btn-primary mt-4">Taste the Difference</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3 class="logo">CRAVE.</h3>
+                <p>The premium cookie experience.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">All Cookies</a></li>
+                    <li><a href="#">Gift Boxes</a></li>
+                    <li><a href="#">Corporate Events</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdWrC4lviHY1NPpgH8QOITSf-uN7rou1rQ9T_09gLeHFkX0uQ/viewform?usp=publish-editor"
+                            target="_blank">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Join the Club</h4>
+                <p>Get 10% off your first order.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault();">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary-small">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> Crave Cookies. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart-btn" id="close-cart-btn">&times;</button>
+        </div>
+
+        <div class="cart-items" id="cart-items-container">
+            <!-- Cart items will be injected here via JavaScript -->
+            <div class="empty-cart-msg" id="empty-cart-msg">
+                <span class="empty-title">Your cart is empty</span>
+                <span class="empty-sub">Looks like you haven't added anything yet.</span>
+                <a href="#shop" class="empty-shop-link" id="empty-cart-shop-link">
+                    Browse Cookies →
+                </a>
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cart-total-price">$0.00</span>
+            </div>
+            <button class="btn btn-primary btn-block checkout-btn" id="checkout-btn" disabled>Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-overlay" id="checkout-overlay"></div>
+    <div class="checkout-modal" id="checkout-modal">
+        <div class="checkout-header">
+            <h2>Complete Your Order</h2>
+            <button class="close-cart-btn" id="close-checkout-btn">&times;</button>
+        </div>
+        <form class="checkout-form" id="checkout-form">
+            <div class="form-group">
+                <label for="order-name">Full Name</label>
+                <input type="text" id="order-name" required placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="order-phone">Phone Number (WhatsApp)</label>
+                <input type="tel" id="order-phone" required placeholder="+91 98765 43210">
+            </div>
+            <div class="form-group">
+                <label for="order-address">Delivery Address</label>
+                <textarea id="order-address" required placeholder="Complete address with pin code" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="order-payment">Mode of Payment</label>
+                <select id="order-payment" required>
+                    <option value="upi">UPI (GPay / PhonePe / Paytm)</option>
+                    <option value="cod">Cash on Delivery</option>
+                </select>
+            </div>
+            <div class="checkout-summary">
+                <span>Total Amount to Pay:</span>
+                <span id="checkout-final-total" class="text-accent">₹0</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-4">Place Order</button>
+        </form>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+
+    <!-- Service Worker for Offline Support -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('SW registered:', reg.scope))
+                    .catch(err => console.warn('SW registration failed:', err));
+            });
+        }
+    </script>
+</body>
+
+</html>

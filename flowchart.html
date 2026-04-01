@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CRAVE — Website Workflow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --bg2: #141417;
+      --card: #1a1a1f;
+      --border: rgba(255,255,255,0.06);
+      --accent: #f5a623;
+      --accent2: #e8843a;
+      --gold-glow: rgba(245,166,35,0.18);
+      --text: #f0ede8;
+      --muted: #7a7570;
+      --connector: rgba(245,166,35,0.4);
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Outfit', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background grain + glow */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 10%, rgba(245,166,35,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 80% 80%, rgba(232,132,58,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Header ─────────────────────────────── */
+    header {
+      text-align: center;
+      padding: 56px 20px 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .logo-text {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    header h1 span { color: var(--accent); }
+    header p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    /* Divider */
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      margin: 18px auto 0;
+      border-radius: 2px;
+    }
+
+    /* ─── Flowchart Canvas ───────────────────── */
+    .canvas {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 52px auto 80px;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ─── Node styles ─────────────────────────── */
+    .node {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 22px;
+      width: 100%;
+      max-width: 420px;
+      transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
+      cursor: default;
+    }
+    .node:hover {
+      border-color: rgba(245,166,35,0.35);
+      box-shadow: 0 0 24px var(--gold-glow);
+      transform: translateY(-2px);
+    }
+    .node .icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(245,166,35,0.1);
+      border-radius: 10px;
+    }
+    .node .label { font-size: 14px; font-weight: 500; line-height: 1.35; }
+    .node .sub { font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 300; }
+
+    /* Accent glow border for key nodes */
+    .node.accent {
+      border-color: rgba(245,166,35,0.28);
+      background: linear-gradient(135deg, #1e1c18, #1a1a1f);
+    }
+    .node.accent::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(245,166,35,0.4), transparent 60%);
+      z-index: -1;
+    }
+
+    /* Decision diamond */
+    .diamond-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 420px;
+    }
+    .diamond {
+      position: relative;
+      width: 170px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      transition: filter 0.25s;
+    }
+    .diamond:hover { filter: brightness(1.15); }
+    .diamond svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .diamond .d-label {
+      position: relative;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      color: var(--accent);
+      z-index: 1;
+      line-height: 1.2;
+    }
+
+    /* ─── Connectors ─────────────────────────── */
+    .connector {
+      width: 2px;
+      height: 34px;
+      background: linear-gradient(to bottom, transparent, var(--connector), transparent);
+      position: relative;
+    }
+    .connector::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--connector);
+    }
+
+    /* Branch row */
+    .branch-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      width: 100%;
+      max-width: 700px;
+      justify-content: center;
+    }
+    .branch-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+    }
+    .branch-connector {
+      width: 2px;
+      height: 26px;
+      background: linear-gradient(to bottom, var(--connector), transparent);
+    }
+    .branch-h-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--connector), transparent);
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 28px 0 4px;
+      align-self: flex-start;
+      padding-left: 4px;
+    }
+
+    /* Phase badge */
+    .phase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245,166,35,0.1);
+      border: 1px solid rgba(245,166,35,0.2);
+      border-radius: 99px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .phase-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ─── Legend ─────────────────────────────── */
+    .legend {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0 20px 60px;
+      position: relative;
+      z-index: 1;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .legend-box {
+      width: 28px; height: 16px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+    .legend-box.acc { border-color: rgba(245,166,35,0.35); background: linear-gradient(135deg, #1e1c18, #1a1a1f); }
+    .legend-diamond {
+      width: 16px; height: 16px;
+      border-radius: 3px;
+      background: transparent;
+      border: 1.5px solid var(--accent);
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-text">CRAVE.</div>
+    <h1>Website <span>Workflow</span></h1>
+    <p>Full end-to-end flow — from page load to order placed.</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="canvas">
+
+    <!-- ── Phase: Boot ─────────────────── -->
+    <div class="phase-badge"><div class="phase-dot"></div>Boot</div>
+
+    <div class="node accent">
+      <div class="icon">🌐</div>
+      <div>
+        <div class="label">User opens browser</div>
+        <div class="sub">index.html loads → style.css applied</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="node">
+      <div class="icon">📦</div>
+      <div>
+        <div class="label">Supabase JS loaded from CDN</div>
+        <div class="sub">script.js runs → init() called</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <!-- Branch: parallel init tasks -->
+    <div class="branch-h-line"></div>
+    <div class="branch-row">
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node" style="max-width:100%; padding:11px 14px;">
+          <div class="icon" style="font-size:16px; width:32px; height:32px;">🖱️</div>
+          <div>
+            <div class="label" style="font-size:12px;">Setup Event Listeners</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node" style="max-width:100%; padding:11px 14px;">
+          <div class="icon" style="font-size:16px; width:32px; height:32px;">✨</div>
+          <div>
+            <div class="label" style="font-size:12px;">Scroll Animations</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node" style="max-width:100%; padding:11px 14px;">
+          <div class="icon" style="font-size:16px; width:32px; height:32px;">🔗</div>
+          <div>
+            <div class="label" style="font-size:12px;">Active Nav Link</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node" style="max-width:100%; padding:11px 14px;">
+          <div class="icon" style="font-size:16px; width:32px; height:32px;">🛒</div>
+          <div>
+            <div class="label" style="font-size:12px;">Load Cart (localStorage)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="branch-h-line"></div>
+    <div class="connector"></div>
+
+    <!-- ── Phase: Products ─────────────── -->
+    <div class="phase-badge"><div class="phase-dot"></div>Products</div>
+
+    <div class="node">
+      <div class="icon">💀</div>
+      <div>
+        <div class="label">Show Skeleton Cards</div>
+        <div class="sub">3 placeholder cards while fetching</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="node accent">
+      <div class="icon">🗄️</div>
+      <div>
+        <div class="label">Fetch from Supabase → products table</div>
+        <div class="sub">SELECT * ORDER BY id ASC</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="node">
+      <div class="icon">🍪</div>
+      <div>
+        <div class="label">Render Product Cards into DOM</div>
+        <div class="sub">Name, desc, price, tag, image · staggered fade-in</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <!-- ── Phase: Cart ─────────────────── -->
+    <div class="phase-badge"><div class="phase-dot"></div>Cart</div>
+
+    <div class="diamond-wrap">
+      <div class="diamond">
+        <svg viewBox="0 0 170 80" preserveAspectRatio="none">
+          <polygon points="85,4 166,40 85,76 4,40" fill="none" stroke="rgba(245,166,35,0.5)" stroke-width="1.5"/>
+        </svg>
+        <div class="d-label">User adds<br>to cart?</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="node">
+      <div class="icon">➕</div>
+      <div>
+        <div class="label">addToCart() — update cart array</div>
+        <div class="sub">Increment qty if item exists</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="branch-h-line"></div>
+    <div class="branch-row">
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node" style="max-width:100%; padding:11px 14px;">
+          <div class="icon" style="font-size:16px; width:32px; height:32px;">🔢</div>
+          <div>
+            <div class="label" style="font-size:12px;">Update cart badge + sidebar</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node" style="max-width:100%; padding:11px 14px;">
+          <div class="icon" style="font-size:16px; width:32px; height:32px;">💾</div>
+          <div>
+            <div class="label" style="font-size:12px;">Save cart to localStorage</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node" style="max-width:100%; padding:11px 14px;">
+          <div class="icon" style="font-size:16px; width:32px; height:32px;">🔔</div>
+          <div>
+            <div class="label" style="font-size:12px;">Show toast notification</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="branch-h-line"></div>
+    <div class="connector"></div>
+
+    <!-- ── Phase: Checkout ─────────────── -->
+    <div class="phase-badge"><div class="phase-dot"></div>Checkout</div>
+
+    <div class="diamond-wrap">
+      <div class="diamond">
+        <svg viewBox="0 0 170 80" preserveAspectRatio="none">
+          <polygon points="85,4 166,40 85,76 4,40" fill="none" stroke="rgba(245,166,35,0.5)" stroke-width="1.5"/>
+        </svg>
+        <div class="d-label">User clicks<br>Checkout?</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="node">
+      <div class="icon">📋</div>
+      <div>
+        <div class="label">Checkout modal opens</div>
+        <div class="sub">Name · Phone · Address · Payment mode</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="node accent">
+      <div class="icon">🗄️</div>
+      <div>
+        <div class="label">Save order → Supabase orders table</div>
+        <div class="sub">INSERT customer_name, phone, address, total…</div>
+      </div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="branch-row" style="max-width:560px;">
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node accent" style="max-width:100%; padding:13px 16px;">
+          <div class="icon">💬</div>
+          <div>
+            <div class="label" style="font-size:13px;">Open WhatsApp</div>
+            <div class="sub">Notify store owner with order details</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch-col">
+        <div class="branch-connector"></div>
+        <div class="node" style="max-width:100%; padding:13px 16px;">
+          <div class="icon">🧹</div>
+          <div>
+            <div class="label" style="font-size:13px;">Clear cart + success toast</div>
+            <div class="sub">Reset form & localStorage</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-box"></div> Standard step</div>
+    <div class="legend-item"><div class="legend-box acc"></div> Supabase / key action</div>
+    <div class="legend-item"><div class="legend-diamond"></div> Decision</div>
+  </div>
+
+</body>
+</html>
